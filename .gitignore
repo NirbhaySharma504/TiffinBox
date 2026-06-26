@@ -43,3 +43,6 @@ yarn-error.log*
 
 # --- Docker local volumes (if any) ---
 pgdata/
+
+docs/
+./Claude.md
