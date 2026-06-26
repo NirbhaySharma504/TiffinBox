@@ -1,0 +1,45 @@
+# --- Build output (Maven) ---
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# --- IDE: IntelliJ ---
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# --- IDE: VS Code / Eclipse ---
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log
+logs/
+
+# --- Secrets / local env (never commit) ---
+.env
+.env.local
+*.env
+application-local.properties
+application-secret.properties
+
+# --- Node (frontend, added later) ---
+node_modules/
+dist/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Docker local volumes (if any) ---
+pgdata/
