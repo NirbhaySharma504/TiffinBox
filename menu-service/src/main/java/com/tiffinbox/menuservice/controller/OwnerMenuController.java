@@ -38,6 +38,15 @@ public class OwnerMenuController {
         return ResponseEntity.ok(menuService.getAllMenus().stream().map(MenuResponse::from).toList());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<MenuResponse> update(
+            @RequestHeader(value = "X-User-Role", required = false) String role,
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateMenuRequest request) {
+        requireOwner(role);
+        return ResponseEntity.ok(MenuResponse.from(menuService.updateMenu(id, request)));
+    }
+
     @PutMapping("/{id}/close")
     public ResponseEntity<MenuResponse> close(
             @RequestHeader(value = "X-User-Role", required = false) String role,

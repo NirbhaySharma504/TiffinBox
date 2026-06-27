@@ -59,9 +59,24 @@ public class MenuService {
         return menu;
     }
 
+    /** Edits an open menu's own fields (partial: null fields are left unchanged). */
+    @Transactional
+    public Menu updateMenu(Long id, UpdateMenuRequest request) {
+        Menu menu = getMenu(id);
+        requireEditable(menu);
+        if (request.description() != null) {
+            menu.setDescription(request.description());
+        }
+        if (request.cutoffTime() != null) {
+            menu.setCutoffTime(request.cutoffTime());
+        }
+        return menu;
+    }
+
     @Transactional
     public MenuItem addItem(Long menuId, CreateMenuItemRequest request) {
         Menu menu = getMenu(menuId);
+        requireEditable(menu);
         MenuItem item = MenuItem.builder()
                 .name(request.name())
                 .description(request.description())
@@ -77,6 +92,7 @@ public class MenuService {
     public MenuItem updateItem(Long itemId, UpdateMenuItemRequest request) {
         MenuItem item = menuItemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Menu item not found: " + itemId));
+        requireEditable(item.getMenu());
         if (request.price() != null) {
             item.setPrice(request.price());
         }
@@ -90,8 +106,17 @@ public class MenuService {
     public void deleteItem(Long itemId) {
         MenuItem item = menuItemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Menu item not found: " + itemId));
+        requireEditable(item.getMenu());
         // Detach from the menu so orphanRemoval deletes it.
         item.getMenu().getItems().remove(item);
+    }
+
+    /** A menu can only be edited while OPEN; once CLOSED it's a historical record. */
+    private void requireEditable(Menu menu) {
+        if (menu.getStatus() != MenuStatus.OPEN) {
+            throw new MenuClosedException(
+                    "Menu " + menu.getId() + " is closed and can no longer be edited");
+        }
     }
 
     // ---------- Read operations ----------

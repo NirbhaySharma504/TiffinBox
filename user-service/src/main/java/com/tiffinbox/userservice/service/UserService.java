@@ -28,12 +28,13 @@ public class UserService {
             throw new EmailAlreadyExistsException(request.email());
         }
 
+        // Self-registration is always a CUSTOMER; OWNER accounts are seeded, never signed up.
         User user = User.builder()
                 .name(request.name())
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
                 .phone(request.phone())
-                .role(request.role() != null ? request.role() : Role.CUSTOMER)
+                .role(Role.CUSTOMER)
                 .build();
 
         return userRepository.save(user);

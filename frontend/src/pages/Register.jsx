@@ -10,7 +10,6 @@ export default function Register() {
     email: "",
     password: "",
     phone: "",
-    role: "CUSTOMER",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,8 +23,8 @@ export default function Register() {
     setError("");
     setLoading(true);
     try {
-      const user = await register(form);
-      navigate(user.role === "OWNER" ? "/owner/orders" : "/");
+      await register(form);
+      navigate("/"); // self-registration always creates a customer
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
     } finally {
@@ -68,13 +67,6 @@ export default function Register() {
         <div>
           <label className="label">Phone</label>
           <input className="input" value={form.phone} onChange={update("phone")} />
-        </div>
-        <div>
-          <label className="label">I am a</label>
-          <select className="input" value={form.role} onChange={update("role")}>
-            <option value="CUSTOMER">Customer</option>
-            <option value="OWNER">Owner</option>
-          </select>
         </div>
         <button className="btn-primary w-full" disabled={loading}>
           {loading ? "Creating…" : "Create account"}
