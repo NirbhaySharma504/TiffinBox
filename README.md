@@ -24,12 +24,12 @@ API gateway, runnable with a single `docker compose up`.
 ```mermaid
 flowchart TD
     U([Customer / Owner])
-    FE["🖥️ Frontend<br/>React · Vite · nginx · :5173"]
-    GW["🚪 API Gateway · :8080<br/>JWT validation · CORS · routing"]
-    EU[("📒 Eureka<br/>Service Discovery · :8761")]
-    DB[("🗄️ PostgreSQL<br/>one database per service")]
-    GROQ[["🤖 Groq LLM"]]
-    MAIL[["✉️ SMTP"]]
+    FE[" Frontend<br/>React · Vite · nginx · :5173"]
+    GW[" API Gateway · :8080<br/>JWT validation · CORS · routing"]
+    EU[(" Eureka<br/>Service Discovery · :8761")]
+    DB[(" PostgreSQL<br/>one database per service")]
+    GROQ[[" Groq LLM"]]
+    MAIL[[" SMTP"]]
 
     U --> FE --> GW
     GW <-.-> EU
