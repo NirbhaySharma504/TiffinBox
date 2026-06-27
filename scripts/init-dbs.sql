@@ -6,3 +6,4 @@ CREATE DATABASE orderdb;
 CREATE DATABASE paymentdb;
 CREATE DATABASE notifdb;
 CREATE DATABASE subscriptiondb;
+CREATE DATABASE feedbackdb;

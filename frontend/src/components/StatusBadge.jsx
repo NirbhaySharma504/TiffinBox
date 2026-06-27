@@ -11,6 +11,10 @@ const COLORS = {
   FAILED: "bg-red-100 text-red-700",
   OPEN: "bg-green-100 text-green-700",
   CLOSED: "bg-stone-200 text-stone-600",
+  POSITIVE: "bg-green-100 text-green-700",
+  NEUTRAL: "bg-blue-100 text-blue-700",
+  NEGATIVE: "bg-red-100 text-red-700",
+  UNKNOWN: "bg-stone-200 text-stone-600",
 };
 
 export default function StatusBadge({ status }) {

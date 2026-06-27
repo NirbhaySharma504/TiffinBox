@@ -164,6 +164,22 @@ services:
         condition: service_started
     networks: [tiffinbox]
 
+  feedback-service:
+    build: ./feedback-service
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/feedbackdb
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-tiffinbox}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-tiffinbox}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      FEEDBACK_AI_ENABLED: ${FEEDBACK_AI_ENABLED:-true}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    networks: [tiffinbox]
+
   # ---------------- Frontend ----------------
   frontend:
     build:

@@ -38,6 +38,9 @@ export default function Navbar() {
                   <NavLink to="/subscriptions" className={linkClass}>
                     Subscriptions
                   </NavLink>
+                  <NavLink to="/feedback" className={linkClass}>
+                    Feedback
+                  </NavLink>
                   <NavLink to="/cart" className={linkClass}>
                     Cart{count > 0 ? ` (${count})` : ""}
                   </NavLink>
@@ -59,6 +62,9 @@ export default function Navbar() {
               </NavLink>
               <NavLink to="/owner/subscriptions" className={linkClass}>
                 Subscriptions
+              </NavLink>
+              <NavLink to="/owner/feedback" className={linkClass}>
+                Feedback
               </NavLink>
             </>
           )}

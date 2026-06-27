@@ -9,11 +9,13 @@ import Menu from "./pages/Menu";
 import Cart from "./pages/Cart";
 import MyOrders from "./pages/MyOrders";
 import MySubscriptions from "./pages/MySubscriptions";
+import Feedback from "./pages/Feedback";
 
 import OwnerOrders from "./pages/owner/OwnerOrders";
 import OwnerMenu from "./pages/owner/OwnerMenu";
 import OwnerPayments from "./pages/owner/OwnerPayments";
 import OwnerSubscriptions from "./pages/owner/OwnerSubscriptions";
+import OwnerFeedback from "./pages/owner/OwnerFeedback";
 
 export default function App() {
   const { isOwner } = useAuth();
@@ -56,6 +58,14 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/feedback"
+            element={
+              <ProtectedRoute>
+                <Feedback />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Owner */}
           <Route
@@ -87,6 +97,14 @@ export default function App() {
             element={
               <ProtectedRoute role="OWNER">
                 <OwnerSubscriptions />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/owner/feedback"
+            element={
+              <ProtectedRoute role="OWNER">
+                <OwnerFeedback />
               </ProtectedRoute>
             }
           />
