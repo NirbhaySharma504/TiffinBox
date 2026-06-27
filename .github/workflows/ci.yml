@@ -23,6 +23,24 @@ jobs:
           - notification-service
           - order-service
           - subscription-service
+          - feedback-service
+    # A throwaway Postgres so the @SpringBootTest contextLoads test can boot the
+    # full context (services with a datasource need a reachable DB). Eureka/Kafka
+    # being unreachable is fine — those clients just retry without failing startup.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: tiffinbox
+          POSTGRES_PASSWORD: tiffinbox
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U tiffinbox"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -33,6 +51,15 @@ jobs:
           cache: maven
       - name: Build & test
         working-directory: ${{ matrix.service }}
+        env:
+          # Relaxed binding -> application.properties. Datasource vars are ignored by
+          # the services that don't have one (eureka-server, api-gateway).
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
+          SPRING_DATASOURCE_USERNAME: tiffinbox
+          SPRING_DATASOURCE_PASSWORD: tiffinbox
+          # feedback-service builds a ChatModel bean; a dummy key lets the context
+          # load (no API call happens at startup).
+          GROQ_API_KEY: ci-dummy-key
         run: ./mvnw -B clean package
 
   frontend:
